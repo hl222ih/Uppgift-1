@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-//testkommentar för att testa push med kommentar
-
 public struct Point { 
   public int x, y;
   
