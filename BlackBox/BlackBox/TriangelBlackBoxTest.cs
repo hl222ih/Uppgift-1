@@ -7,13 +7,34 @@ using System.Diagnostics;
 
 namespace BlackBox
 {
-    class Program
+
+    /// <summary>
+    /// Detta program utför tester på Triangel.exe och skriver ut resultaten.
+    /// Skriver även ut en manuellt skapad rapport över felaktigheter som hittats,
+    /// efter det att testresultaten analyserats.
+    /// </summary>
+    class TriangelBlackBoxTest
     {
         static void Main(string[] args)
         {
 
             List<List<double[]>> tests = CreateTestCases();
             PrintTestCases(tests);
+            PrintReport();
+            
+        }
+
+        /// <summary>
+        /// Skriver ut en manuellt skriven rapport över de fel som hittats i Triangel.exe.
+        /// </summary>
+        static void PrintReport()
+        {
+            Console.WriteLine("Dokumentation och analys av utfallen:");
+            Console.WriteLine("En triangel kan inte bestå av sidor med negativ längd. Detta kontrollerar inte Triangel.exe.");
+            Console.WriteLine("Om två av triangelns sidor är lika långa tillsammans som den tredje sidan är det ingen triangel, utan ett streck. Detta kontrollerar inte Triangel.exe");
+            Console.WriteLine("Om två av triangelns sidor är kortare tillsammans än den tredje sidan så går sidorna inte ihop och bildar ingen triangel. Detta kontrollerar inte Triangel.exe");
+            Console.WriteLine("Om någon av triangelns sidor har längden noll, så är det ingen triangel, utan ett streck. Detta kontrollerar inte Triangel.exe.");
+            Console.WriteLine("Av uppgiften framgår att Triangel tar tre värden av värdetypen double. Jag utgår från att uppgiften inte handlar om input-validering. Exempelvis kraschar programmet om man skriver in text istället för nummer.");
             Console.ReadLine();
         }
 
@@ -90,12 +111,17 @@ namespace BlackBox
             return tests;
         }
 
+        /// <summary>
+        /// Skriver ut testfallen, förväntade resultat och verkliga resultat och jämför dessa.
+        /// </summary>
+        /// <param name="tests">Testerna.</param>
         static void PrintTestCases(List<List<double[]>> tests)
         {
             Console.WriteLine("╔════════╦════════╦════════╦════════════════════╦═══════════════════╦════════╗");
             Console.WriteLine("║ sida 1 ║ sida 2 ║ sida 3 ║ förväntat resultat ║ verkligt resultat ║ utfall ║");
             Console.WriteLine("╠════════╩════════╩════════╩════════════════════╩═══════════════════╩════════╣");
 
+            //rubriker
             string[] testGroupHeadings = new string[]{
                 "Tre sidor lika långa",
                 "En sida längre än de andra",
@@ -112,7 +138,7 @@ namespace BlackBox
                 {
                     Console.WriteLine("╠════════╩════════╩════════╩════════════════════╩═══════════════════╩════════╣");
                 }
-                Console.WriteLine("║  " + (i + 1) + ". " + String.Format("{0,-40}", testGroupHeadings[i]) + "                               ║");
+                Console.WriteLine("║  " + (i + 1) + ". " + String.Format("{0,-71}", testGroupHeadings[i]) + "║");
                 Console.WriteLine("╠════════╦════════╦════════╦════════════════════╦═══════════════════╦════════╣");
 
                 foreach (double[] test in tests[i])
@@ -137,12 +163,49 @@ namespace BlackBox
                     {
                         expected = "oliksidig";
                     }
+
+                    string testResult = RunTestCase(test[0], test[1], test[2]);
+                    string formattedTestResult = String.Empty;
+                    if (testResult.Equals("Triangeln har inga lika sidor\r\n"))
+                    {
+                        formattedTestResult = "oliksidig";
+                    }
+                    else if (testResult.Equals("Triangeln är likbent\r\n"))
+                    {
+                        formattedTestResult = "likbent";
+                    }
+                    else if (testResult.Equals("Triangeln är liksidig\r\n"))
+                    {
+                        formattedTestResult = "liksidig";
+                    }
+
                     Console.WriteLine("║ {0,-6} ║ {1,-6} ║ {2,-6} ║ {3,-18} ║ {4,-17} ║ {5,-6} ║",
                         test[0].ToString("0.0"), test[1].ToString("0.0"), test[2].ToString("0.0"),
-                        String.Format("{0,-15}", expected), "-", "-");
+                        expected, formattedTestResult, (expected.Equals(formattedTestResult) ? "true" : "false"));
                 }
             }
             Console.WriteLine("╚════════╩════════╩════════╩════════════════════╩═══════════════════╩════════╝");                
+        }
+
+        /// <summary>
+        /// Kör programmet triangel.exe och returnerar programmets output.
+        /// </summary>
+        /// <param name="arg1">längden på sida 1 i triangeln</param>
+        /// <param name="arg2">längden på sida 2 i triangeln</param>
+        /// <param name="arg2">längden på sida 3 i triangeln</param>
+        /// <returns>triangel.exe:s output för de givna argumenten  </returns>
+        static string RunTestCase(double arg1, double arg2, double arg3)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "triangel.exe";
+            process.StartInfo.Arguments = String.Format("{0} {1} {2}", arg1.ToString(), arg2.ToString(), arg3.ToString());
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.Start();
+
+            string output = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+            return output;
         }
     }   
 }
