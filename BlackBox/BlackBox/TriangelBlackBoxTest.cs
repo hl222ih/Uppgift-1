@@ -195,7 +195,7 @@ namespace BlackBox
         /// </summary>
         /// <param name="arg1">längden på sida 1 i triangeln</param>
         /// <param name="arg2">längden på sida 2 i triangeln</param>
-        /// <param name="arg2">längden på sida 3 i triangeln</param>
+        /// <param name="arg3">längden på sida 3 i triangeln</param>
         /// <returns>triangel.exe:s output för de givna argumenten  </returns>
         static string RunTestCase(double arg1, double arg2, double arg3)
         {
@@ -208,6 +208,7 @@ namespace BlackBox
 
             string output = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
+
             return output;
         }
     }   
