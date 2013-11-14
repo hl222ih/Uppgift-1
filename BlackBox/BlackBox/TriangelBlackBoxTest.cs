@@ -30,11 +30,14 @@ namespace BlackBox
         static void PrintReport()
         {
             Console.WriteLine("Dokumentation och analys av utfallen:");
+            Console.WriteLine();
             Console.WriteLine("En triangel kan inte bestå av sidor med negativ längd. Detta kontrollerar inte Triangel.exe.");
             Console.WriteLine("Om två av triangelns sidor är lika långa tillsammans som den tredje sidan är det ingen triangel, utan ett streck. Detta kontrollerar inte Triangel.exe");
             Console.WriteLine("Om två av triangelns sidor är kortare tillsammans än den tredje sidan så går sidorna inte ihop och bildar ingen triangel. Detta kontrollerar inte Triangel.exe");
             Console.WriteLine("Om någon av triangelns sidor har längden noll, så är det ingen triangel, utan ett streck. Detta kontrollerar inte Triangel.exe.");
             Console.WriteLine("Av uppgiften framgår att Triangel tar tre värden av värdetypen double. Jag utgår från att uppgiften inte handlar om input-validering. Exempelvis kraschar programmet om man skriver in text istället för nummer.");
+            Console.WriteLine();
+            Console.WriteLine("Kommentar ang. commit 2. Tyvärr misslyckades den, så ändringar för uppgift 2. och 5. finns i commit 5.");
             Console.ReadLine();
         }
 
