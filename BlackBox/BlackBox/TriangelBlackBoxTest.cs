@@ -42,7 +42,7 @@ namespace BlackBox
             Console.WriteLine("7. Om heltal skickas in till programmet så hanteras det som om det vore double-värden, vilket väl är rimligt.");
             Console.WriteLine("8. Om värden med små skillnader skickas till Triangel.exe returneras oväntade resultat. 3 av 4 tester som resturneras är felaktiga. Troligen så klipps decimaldelen av talet av genom en explicit cast från double till int eller dylikt. Det skulle förklara de returnerade värdena, åtminstone, i de fyra testfallen.");
             Console.WriteLine("9. Triangel.exe accepterar värdena INF och -INF, vilket inte är rimligt. Om ett för stort värde, som inte avrundas till INF sker en programkrasch.");
-            Console.WriteLine("I övrigt verkar Triangel.exe fungera som det är tänkt, men korrekta returvärden");
+            Console.WriteLine("I övrigt verkar Triangel.exe fungera som det är tänkt, men korrekta returvärden.");
             Console.ReadLine();
         }
 
@@ -233,8 +233,11 @@ namespace BlackBox
                         }
                         
                     }
-                    //för heltalstestet
-                    else if (Int32.TryParse(test[0], out temp) && Int32.TryParse(test[1], out temp) && Int32.TryParse(test[2], out temp))
+                    //för heltalstestet, testar om inmatning är konverterbar till heltal, men samtidigt att inmatningen inte innehåller decimaler
+                    else if (Int32.TryParse(test[0], out temp) && Int32.TryParse(test[1], out temp) && Int32.TryParse(test[2], out temp) &&
+                        System.Text.RegularExpressions.Regex.IsMatch(test[0], @"(\.|,)") &&
+                        System.Text.RegularExpressions.Regex.IsMatch(test[1], @"(\.|,)") &&
+                        System.Text.RegularExpressions.Regex.IsMatch(test[2], @"(\.|,)"))
                     {
                         //har bara ett test, 5 6 4 som ska ge resultatet oliksidig.
                         //det bör rimligtvis vara ok att skicka med ett heltal istället
