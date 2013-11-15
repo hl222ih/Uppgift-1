@@ -7,7 +7,7 @@ namespace WhiteBoxTest
     public class WhiteBoxTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void isIsosceles()
         {
 
         }
