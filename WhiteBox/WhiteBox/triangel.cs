@@ -39,23 +39,24 @@ public class Triangle {
   }
 
   private int uniqueSides() {
-    return sides.Distinct<double>().Count();
+      var temp = sides.Distinct<double>().Count();
+      return temp;
   }
 
   public bool isScalene() {
-    if(uniqueSides()==1)
+    if(uniqueSides()==3) //En oliksidig triangel har 3 unika sidor, inte 1.
       return true;
     return false;
   }
 
   public bool isEquilateral() {
-    if(uniqueSides()==3)
+    if(uniqueSides()==1) //En liksidig triangel har 1 unik sida, inte 3.
       return true;
     return false;
   }
 
   public bool isIsosceles() {
-    if(uniqueSides()==2)
+      if (uniqueSides() == 2 || uniqueSides() == 1) //En likbent triangel har 1 eller 2 unika sidor, eftersom en liksidig triangel också är en likbent triangel.
       return true;
     return false;
   }
