@@ -106,7 +106,7 @@ namespace WhiteBoxTest
         [ExpectedException(typeof(ArgumentException))]
         public void InvalidSideArguments4DoubleConstructor()
         {
-            Triangle triangle = new Triangle(new double[] { 4.0, 5.0, -1.0 });
+            Triangle triangle = new Triangle( 4.0, 5.0, -1.0 );
         }
 
         [TestMethod]
