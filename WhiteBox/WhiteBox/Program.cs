@@ -10,69 +10,85 @@ namespace WhiteBox
     {
         static void Main(string[] args)
         {
-            //temporärt testvärde
-            args = new string[] { "4.0", "4.0", "4.0s" };
 
-            string message = String.Empty;
-            string errorMessage = String.Empty;
-
-            if (ValidateInput(args, out errorMessage))
-            {
-            }
-            else
-            {
-                message = errorMessage;
-            }
-
-            Console.WriteLine(message);
-            Console.ReadLine();
-
-        }
-
-        private static bool ValidateInput(string[] args, out string errorMessage)
-        {
-            errorMessage = String.Empty;
+            //Egentligen för Triangle-klassens konstruktor att kolla, men
+            //eftersom Triangelklassen har en konstruktor med parametrar
+            //för både hörnens punkter och sidornas längder måste
+            //man på något sätt bestämma om de medskickade värdena
+            //är avsedda för att skapa punkter eller sidlängder.
+            //Att räkna antalet argument är ett sätt, och det sättet
+            //jag valt att använda i denna lösning.
             if (args.Length != 3 && args.Length != 6)
             {
-                errorMessage = "Felaktigt antal argument. Ange sidans längder (tre argument) eller de tre punkternas koordinater (sex argument)";
-                return false;
+                Console.WriteLine("Felaktigt antal argument.");
+                return;
             }
+            
+            bool canAllArgumentsBeParsedToDouble = false;
+            bool canAllArgumentsBeParsedToInt32 = false;
 
-            double[] argsAsDouble = new double[args.Length];
-            for (int i = 0; i < args.Length; i++)
+            if (args.Length == 3)
             {
-                if (!Double.TryParse(args[i], out argsAsDouble[i]))
+                Predicate<string> doublePredicate = delegate(string arg){ double notUsed; return (Double.TryParse(arg, out notUsed)); };
+
+                if (Array.TrueForAll<string>(args, doublePredicate))
                 {
-                    errorMessage = "Ett eller flera argument kan inte tolkas som ett flyttal (double).";
-                    return false;
+                    canAllArgumentsBeParsedToDouble = true;
+                }
+
+            }
+            else if (args.Length == 6)
+            {
+                Predicate<string> intPredicate = delegate(string arg){ int notUsed; return (Int32.TryParse(arg, out notUsed)); };
+
+                if (Array.TrueForAll<string>(args, intPredicate))
+                {
+                    canAllArgumentsBeParsedToInt32 = true;
                 }
             }
 
-            if (argsAsDouble.Length == 3)
+            if (!canAllArgumentsBeParsedToDouble && !canAllArgumentsBeParsedToInt32)
             {
-                foreach (double argAsDouble in argsAsDouble)
-                {
-                    if (argAsDouble <= 0 || argAsDouble == Double.PositiveInfinity)
-                    {
-                        errorMessage = "Ett eller flera argument representerar för stora tal eller för små tal.";
-                        return false;
-                    }
-                }
+                Console.WriteLine("De angivna värdena kan inte tolkas.");
+                return;
             }
 
-            if (argsAsDouble.Length == 6)
+            Triangle triangle = null;
+            try
             {
-                foreach (double argAsDouble in argsAsDouble)
+                if (args.Length == 3)
                 {
-                    if (Double.IsInfinity(argAsDouble))
-                    {
-                        errorMessage = "Ett eller flera argument representerar för stora eller för små tal.";
-                        return false;
-                    }
+                    triangle = new Triangle(
+                        Double.Parse(args[0]), Double.Parse(args[1]), Double.Parse(args[2])
+                        );
+                }
+                else if (args.Length == 6)
+                {
+                    Point point1 = new Point(Int32.Parse(args[0]), Int32.Parse(args[1]));
+                    Point point2 = new Point(Int32.Parse(args[2]), Int32.Parse(args[3]));
+                    Point point3 = new Point(Int32.Parse(args[4]), Int32.Parse(args[5]));
+
+                    triangle = new Triangle(point1, point2, point3);
                 }
             }
+            catch (Exception)
+            {
+                Console.WriteLine("De angivna värdena är inte giltiga för en triangel.");
+                return;
+            }
 
-            return true;
+            if (triangle.isEquilateral())
+            {
+                Console.WriteLine("Triangeln är liksidig.");
+            }
+            else if (triangle.isIsosceles())
+            {
+                Console.WriteLine("Triangeln är likbent.");
+            }
+            else if (triangle.isEquilateral())
+            {
+                Console.WriteLine("Triangeln är oliksidig.");
+            }
         }
     }
 }
