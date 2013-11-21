@@ -23,9 +23,16 @@ namespace WhiteBoxTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void SamePointArguments()
+        public void SamePointArgumentsArrayConstructor()
         {
             Triangle triangle = new Triangle(new Point[] { new Point(1, 1), new Point(1, 1), new Point(2, 2) });
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void SamePointArgumentsPointConstructor()
+        {
+            Triangle triangle = new Triangle(new Point(1, 1), new Point(1, 1), new Point(2, 2));
         }
 
         [TestMethod]
@@ -44,7 +51,7 @@ namespace WhiteBoxTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void InvalidSideArguments1()
+        public void InvalidSideArguments1ArrayConstructor()
         {
             //resulterar i en linje, inte en triangel
             Triangle triangle = new Triangle(new double[] { 1.0, 2.0, 3.0 });
@@ -52,7 +59,14 @@ namespace WhiteBoxTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void InvalidSideArguments2()
+        public void InvalidSideArguments1DoubleConstructor()
+        {
+            Triangle triangle = new Triangle(1.0, 2.0, 3.0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidSideArguments2ArrayConstructor()
         {
             //summan av de två kortaste sidorna kan inte vara kortare än den längsta sidan.
             Triangle triangle = new Triangle(new double[] { 4.0, 2.0, 1.0 });
@@ -60,7 +74,14 @@ namespace WhiteBoxTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void InvalidSideArguments3()
+        public void InvalidSideArguments2DoubleConstructor()
+        {
+            Triangle triangle = new Triangle(4.0, 2.0, 1.0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidSideArguments3ArrayConstructor()
         {
             //ingen sida kan vara noll.
             Triangle triangle = new Triangle(new double[] { 0.0, 2.0, 2.0 });
@@ -68,7 +89,14 @@ namespace WhiteBoxTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void InvalidSideArguments4()
+        public void InvalidSideArguments3DoubleConstructor()
+        {
+            Triangle triangle = new Triangle(0.0, 2.0, 2.0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidSideArguments4ArrayConstructor()
         {
             //ingen sida kan vara mindre än noll.
             Triangle triangle = new Triangle(new double[] { 4.0, 5.0, -1.0 });
@@ -76,7 +104,14 @@ namespace WhiteBoxTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void InvalidSideArguments5()
+        public void InvalidSideArguments4DoubleConstructor()
+        {
+            Triangle triangle = new Triangle(new double[] { 4.0, 5.0, -1.0 });
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidSideArguments5ArrayConstructor()
         {
             //ingen sida får vara längre än vad som kan hanteras av datatypen
             Triangle triangle = new Triangle(new double[] { 4.0, Double.MaxValue + 1, 4.0 });
@@ -84,10 +119,26 @@ namespace WhiteBoxTest
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void InvalidSideArguments6()
+        public void InvalidSideArguments5DoubleConstructor()
+        {
+            //ingen sida får vara längre än vad som kan hanteras av datatypen
+            Triangle triangle = new Triangle(4.0, Double.MaxValue + 1, 4.0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidSideArguments6ArrayConstructor()
         {
             //ingen sida får vara PositiveInfinity
             Triangle triangle = new Triangle(new double[] { Double.PositiveInfinity, 3.0, 4.0 });
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidSideArguments6DoubleConstructor()
+        {
+            //ingen sida får vara PositiveInfinity
+            Triangle triangle = new Triangle(Double.PositiveInfinity, 3.0, 4.0);
         }
 
         [TestMethod]
