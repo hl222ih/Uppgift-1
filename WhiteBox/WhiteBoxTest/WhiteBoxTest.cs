@@ -91,76 +91,202 @@ namespace WhiteBoxTest
         }
 
         [TestMethod]
-        public void isScalene()
+        public void isEquilateralWithThreeEqualSides()
         {
-            //liksidig
-            Triangle triangle = new Triangle(5.0, 5.0, 5.0);
-            Assert.IsFalse(triangle.isScalene());
-
-            ////likbent
-            triangle = new Triangle(5.0, 4.0, 5.0);
-            Assert.IsFalse(triangle.isScalene());
-            triangle = new Triangle(5.0, 4.99, 5.0);
-            Assert.IsFalse(triangle.isScalene());
-            triangle = new Triangle(5.0, 5.01, 5.0);
-            Assert.IsFalse(triangle.isScalene());
-
-            //oliksidig
-            triangle = new Triangle(3.0, 4.0, 5.0);
-            Assert.IsTrue(triangle.isScalene());
-            triangle = new Triangle(4.99, 5.0, 5.01);
-            Assert.IsTrue(triangle.isScalene());
-            triangle = new Triangle(4.0, 4.01, 4.02);
-            Assert.IsTrue(triangle.isScalene());
-        }
-
-        [TestMethod]
-        public void isEquilateral()
-        {
-            //liksidig
             Triangle triangle = new Triangle(5.0, 5.0, 5.0);
             Assert.IsTrue(triangle.isEquilateral());
+        }
 
-            //likbent
-            triangle = new Triangle(5.0, 4.0, 5.0);
-            Assert.IsFalse(triangle.isEquilateral());
-            triangle = new Triangle(5.0, 4.99, 5.0);
-            Assert.IsFalse(triangle.isEquilateral());
-            triangle = new Triangle(5.0, 5.01, 5.0);
-            Assert.IsFalse(triangle.isEquilateral());
-
-            //oliksidig
-            triangle = new Triangle(3.0, 4.0, 5.0);
-            Assert.IsFalse(triangle.isEquilateral());
-            triangle = new Triangle(4.99, 5.0, 5.01);
-            Assert.IsFalse(triangle.isEquilateral());
-            triangle = new Triangle(4.0, 4.01, 4.02);
+        [TestMethod]
+        public void isNotEquilateralWithOneDeviantLongerSide()
+        {
+            Triangle triangle = new Triangle(5.0, 6.0, 5.0);
             Assert.IsFalse(triangle.isEquilateral());
         }
 
         [TestMethod]
-        public void isIsosceles()
+        public void isNotEquilateralWithOneDeviantSlightlyLongerSide()
         {
-            //en liksidig triangel är ett specialfall av en likbent triangel.
-            //en liksidig triangel är alltså alltid likbent.
+            Triangle triangle = new Triangle(5.0, 5.01, 5.0);
+            Assert.IsFalse(triangle.isEquilateral());
+        }
+
+        [TestMethod]
+        public void isNotEquilateralWithOneDeviantShorterSide()
+        {
+            Triangle triangle = new Triangle(5.0, 5.0, 4.0);
+            Assert.IsFalse(triangle.isEquilateral());
+        }
+
+        [TestMethod]
+        public void isNotEquilateralWithOneDeviantSlightlyShorterSide()
+        {
+            Triangle triangle = new Triangle(5.0, 5.0, 4.99);
+            Assert.IsFalse(triangle.isEquilateral());
+        }
+
+        [TestMethod]
+        public void isNotEquilateralWithAllSidesDeviant()
+        {
+            Triangle triangle = new Triangle(4.0, 5.0, 3.0);
+            Assert.IsFalse(triangle.isEquilateral());
+        }
+
+        [TestMethod]
+        public void isNotEquilateralWithAllSidesSlightlyDeviantFromIntegerSide1()
+        {
+            //båda de avvikande sidlängderna kortare än "heltalslängden"
+            Triangle triangle = new Triangle(4.99, 5.0, 4.98);
+            Assert.IsFalse(triangle.isEquilateral());
+        }
+
+        [TestMethod]
+        public void isNotEquilateralWithAllSidesSlightlyDeviantFromIntegerSide2()
+        {
+            //de avvikande sidlängderna på vardera sidan av "heltalslängden"
+            Triangle triangle = new Triangle(4.99, 5.0, 5.01);
+            Assert.IsFalse(triangle.isEquilateral());
+        }
+        
+        [TestMethod]
+        public void isNotEquilateralWithAllSidesSlightlyDeviantFromIntegerSide3()
+        {
+            //båda de avvikande sidlängderna längre än "heltalslängden"
+            Triangle triangle = new Triangle(5.01, 5.0, 5.02);
+            Assert.IsFalse(triangle.isEquilateral());
+        }
+
+        [TestMethod]
+        public void isIsoscelesWithThreeEqualSides()
+        {
+            //En liksidig triangel är ett specialfall av en likbent triangel.
             Triangle triangle = new Triangle(5.0, 5.0, 5.0);
             Assert.IsTrue(triangle.isIsosceles());
+        }
 
-            //likbent
-            triangle = new Triangle(5.0, 4.0, 5.0);
+        [TestMethod]
+        public void isIsoscelesWithOneDeviantLongerSide()
+        {
+            Triangle triangle = new Triangle(5.0, 6.0, 5.0);
             Assert.IsTrue(triangle.isIsosceles());
-            triangle = new Triangle(5.0, 4.99, 5.0);
-            Assert.IsTrue(triangle.isIsosceles());
-            triangle = new Triangle(5.0, 5.01, 5.0);
-            Assert.IsTrue(triangle.isIsosceles());
+        }
 
-            //oliksidig
-            triangle = new Triangle(3.0, 4.0, 5.0);
+        [TestMethod]
+        public void isIsoscelesWithOneDeviantSlightlyLongerSide()
+        {
+            Triangle triangle = new Triangle(5.0, 5.01, 5.0);
+            Assert.IsTrue(triangle.isIsosceles());
+        }
+
+        [TestMethod]
+        public void isIsoscelesWithOneDeviantShorterSide()
+        {
+            Triangle triangle = new Triangle(5.0, 5.0, 4.0);
+            Assert.IsTrue(triangle.isIsosceles());
+        }
+
+        [TestMethod]
+        public void isIsoscelesWithOneDeviantSlightlyShorterSide()
+        {
+            Triangle triangle = new Triangle(5.0, 5.0, 4.99);
+            Assert.IsTrue(triangle.isIsosceles());
+        }
+
+        [TestMethod]
+        public void isNotIsoscelesWithAllSidesDeviant()
+        {
+            Triangle triangle = new Triangle(4.0, 5.0, 3.0);
             Assert.IsFalse(triangle.isIsosceles());
-            triangle = new Triangle(4.99, 5.0, 5.01);
+        }
+
+        [TestMethod]
+        public void isNotIsoscelesWithAllSidesSlightlyDeviantFromIntegerSide1()
+        {
+            //båda de avvikande sidlängderna kortare än "heltalslängden"
+            Triangle triangle = new Triangle(4.99, 5.0, 4.98);
             Assert.IsFalse(triangle.isIsosceles());
-            triangle = new Triangle(4.0, 4.01, 4.02);
+        }
+
+        [TestMethod]
+        public void isNotIsoscelesWithAllSidesSlightlyDeviantFromIntegerSide2()
+        {
+            //de avvikande sidlängderna på vardera sidan av "heltalslängden"
+            Triangle triangle = new Triangle(4.99, 5.0, 5.01);
             Assert.IsFalse(triangle.isIsosceles());
+        }
+        
+        [TestMethod]
+        public void isNotIsoscelesWithAllSidesSlightlyDeviantFromIntegerSide3()
+        {
+            //båda de avvikande sidlängderna längre än "heltalslängden"
+            Triangle triangle = new Triangle(5.01, 5.0, 5.02);
+            Assert.IsFalse(triangle.isIsosceles());
+        }
+
+        [TestMethod]
+        public void isNotScaleneWithThreeEqualSides()
+        {
+            Triangle triangle = new Triangle(5.0, 5.0, 5.0);
+            Assert.IsFalse(triangle.isScalene());
+        }
+
+        [TestMethod]
+        public void isNotScaleneWithOneDeviantLongerSide()
+        {
+            Triangle triangle = new Triangle(5.0, 6.0, 5.0);
+            Assert.IsFalse(triangle.isScalene());
+        }
+
+        [TestMethod]
+        public void isNotScaleneWithOneDeviantSlightlyLongerSide()
+        {
+            Triangle triangle = new Triangle(5.0, 5.01, 5.0);
+            Assert.IsFalse(triangle.isScalene());
+        }
+
+        [TestMethod]
+        public void isNotScaleneWithOneDeviantShorterSide()
+        {
+            Triangle triangle = new Triangle(5.0, 5.0, 4.0);
+            Assert.IsFalse(triangle.isScalene());
+        }
+
+        [TestMethod]
+        public void isNotScaleneWithOneDeviantSlightlyShorterSide()
+        {
+            Triangle triangle = new Triangle(5.0, 5.0, 4.99);
+            Assert.IsFalse(triangle.isScalene());
+        }
+
+        [TestMethod]
+        public void isScaleneWithAllSidesDeviant()
+        {
+            Triangle triangle = new Triangle(4.0, 5.0, 3.0);
+            Assert.IsTrue(triangle.isScalene());
+        }
+
+        [TestMethod]
+        public void isScaleneWithAllSidesSlightlyDeviantFromIntegerSide1()
+        {
+            //båda de avvikande sidlängderna kortare än "heltalslängden"
+            Triangle triangle = new Triangle(4.99, 5.0, 4.98);
+            Assert.IsTrue(triangle.isScalene());
+        }
+
+        [TestMethod]
+        public void isScaleneWithAllSidesSlightlyDeviantFromIntegerSide2()
+        {
+            //de avvikande sidlängderna på vardera sidan av "heltalslängden"
+            Triangle triangle = new Triangle(4.99, 5.0, 5.01);
+            Assert.IsTrue(triangle.isScalene());
+        }
+        
+        [TestMethod]
+        public void isScaleneWithAllSidesSlightlyDeviantFromIntegerSide3()
+        {
+            //båda de avvikande sidlängderna längre än "heltalslängden"
+            Triangle triangle = new Triangle(5.01, 5.0, 5.02);
+            Assert.IsTrue(triangle.isScalene());
         }
     }
 }
