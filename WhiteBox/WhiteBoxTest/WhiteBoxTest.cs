@@ -11,7 +11,7 @@ namespace WhiteBoxTest
         [ExpectedException(typeof(ArgumentException))]
         public void TooFewPointArguments()
         {
-            Triangle triangle = new Triangle(new Point[] { new Point(1, 1) });
+            Triangle triangle = new Triangle(new Point[] { new Point(1, 1), new Point(2, 2) });
         }
 
         [TestMethod]
@@ -338,6 +338,48 @@ namespace WhiteBoxTest
             //båda de avvikande sidlängderna längre än "heltalslängden"
             Triangle triangle = new Triangle(5.01, 5.0, 5.02);
             Assert.IsTrue(triangle.isScalene());
+        }
+
+        [TestMethod]
+        public void isEquilateralWithPointsConstructor()
+        {
+            Triangle triangle = new Triangle(new Point(0, 0), new Point(780, 1351), new Point(1560, 0));
+            Assert.IsTrue(triangle.isEquilateral());
+        }
+
+        [TestMethod]
+        public void isIsoscelesWithPointsConstructor()
+        {
+            Triangle triangle = new Triangle(new Point(0, 0), new Point(1, 3), new Point(2, 0));
+            Assert.IsTrue(triangle.isIsosceles());
+        }
+
+        [TestMethod]
+        public void isEquilateralWithPointsArrayConstructor()
+        {
+            Triangle triangle = new Triangle(new Point[] { new Point(0, 0), new Point(780, 1351), new Point(1560, 0) });
+            Assert.IsTrue(triangle.isEquilateral());
+        }
+
+        [TestMethod]
+        public void isIsoscelesWithPointsArrayConstructor()
+        {
+            Triangle triangle = new Triangle(new Point[] {new Point(0, 0), new Point(1, 3), new Point(2, 0)});
+            Assert.IsTrue(triangle.isIsosceles());
+        }
+
+        [TestMethod]
+        public void isEquilateralWithDoubleArrayConstructor()
+        {
+            Triangle triangle = new Triangle(new Double[] { 5.0, 5.0, 5.0 });
+            Assert.IsTrue(triangle.isEquilateral());
+        }
+
+        [TestMethod]
+        public void isIsoscelesWithDoubleArrayConstructor()
+        {
+            Triangle triangle = new Triangle(new Double[] { 5.0, 2.0, 5.0 });
+            Assert.IsTrue(triangle.isIsosceles());
         }
     }
 }
